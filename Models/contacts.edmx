@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RolodexModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Contact_Info">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Phone_Number" Type="nchar" MaxLength="255" />
+          <Property Name="Email" Type="nchar" MaxLength="255" />
+          <Property Name="Note" Type="nchar" MaxLength="255" />
+          <Property Name="uni_id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Contact_Names">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="First_Name" Type="nchar" MaxLength="20" />
+          <Property Name="Last_Name" Type="nchar" MaxLength="20" />
+          <Property Name="orderDate" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK__Contact_I__uni_i__6383C8BA">
+          <End Role="Contact_Names" Type="Self.Contact_Names" Multiplicity="0..1" />
+          <End Role="Contact_Info" Type="Self.Contact_Info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact_Names">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact_Info">
+              <PropertyRef Name="uni_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RolodexModelStoreContainer">
+          <EntitySet Name="Contact_Info" EntityType="Self.Contact_Info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contact_Names" EntityType="Self.Contact_Names" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Contact_I__uni_i__6383C8BA" Association="Self.FK__Contact_I__uni_i__6383C8BA">
+            <End Role="Contact_Names" EntitySet="Contact_Names" />
+            <End Role="Contact_Info" EntitySet="Contact_Info" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RolodexModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Contact_Info">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Phone_Number" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="uni_id" Type="Guid" />
+          <NavigationProperty Name="Contact_Names" Relationship="Self.FK__Contact_I__uni_i__6383C8BA" FromRole="Contact_Info" ToRole="Contact_Names" />
+        </EntityType>
+        <EntityType Name="Contact_Names">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="First_Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Last_Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="orderDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Contact_Info" Relationship="Self.FK__Contact_I__uni_i__6383C8BA" FromRole="Contact_Names" ToRole="Contact_Info" />
+        </EntityType>
+        <Association Name="FK__Contact_I__uni_i__6383C8BA">
+          <End Role="Contact_Names" Type="Self.Contact_Names" Multiplicity="0..1" />
+          <End Role="Contact_Info" Type="Self.Contact_Info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact_Names">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact_Info">
+              <PropertyRef Name="uni_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RolodexEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contact_Info" EntityType="Self.Contact_Info" />
+          <EntitySet Name="Contact_Names" EntityType="Self.Contact_Names" />
+          <AssociationSet Name="FK__Contact_I__uni_i__6383C8BA" Association="Self.FK__Contact_I__uni_i__6383C8BA">
+            <End Role="Contact_Names" EntitySet="Contact_Names" />
+            <End Role="Contact_Info" EntitySet="Contact_Info" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RolodexModelStoreContainer" CdmEntityContainer="RolodexEntities">
+          <EntitySetMapping Name="Contact_Info">
+            <EntityTypeMapping TypeName="RolodexModel.Contact_Info">
+              <MappingFragment StoreEntitySet="Contact_Info">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Phone_Number" ColumnName="Phone_Number" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="uni_id" ColumnName="uni_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contact_Names">
+            <EntityTypeMapping TypeName="RolodexModel.Contact_Names">
+              <MappingFragment StoreEntitySet="Contact_Names">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
